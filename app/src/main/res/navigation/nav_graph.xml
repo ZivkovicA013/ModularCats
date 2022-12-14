@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/factFragment">
+
+    <fragment
+        android:id="@+id/factFragment"
+        android:name="com.zia1bg.modularcats.feature.fact.FactFragment"
+        android:label="FactFragment" >
+        <action
+            android:id="@+id/action_factFragment_to_listFragment"
+            app:destination="@id/listFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="com.zia1bg.modularcats.feature.list.ListFragment"
+        android:label="ListFragment" >
+        <action
+            android:id="@+id/action_listFragment_to_factFragment"
+            app:destination="@id/factFragment" />
+    </fragment>
+</navigation>
