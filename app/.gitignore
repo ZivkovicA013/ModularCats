@@ -1,1 +1,76 @@
-/build
+Skip to content
+Search or jump to…
+Pull requests
+Issues
+Codespaces
+Marketplace
+Explore
+
+@ZivkovicA013
+github
+/
+gitignore
+Public
+Code
+Pull requests
+355
+Actions
+Security
+Insights
+gitignore/Android.gitignore
+@paulsmithkc
+paulsmithkc Android Studio
+…
+Latest commit d7a25ed on Feb 2
+ History
+ 51 contributors
+@friederbluemle@shiftkey@arcresu@tral@Neargye@callingshotgun@nicholas-gs@jsoref@malhobayyeb@ntakouris@Yousha@whoshuu
+33 lines (26 sloc)  431 Bytes
+
+# Gradle files
+.gradle/
+build/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Log/OS Files
+*.log
+
+# Android Studio generated files and folders
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+output.json
+
+# IntelliJ
+*.iml
+.idea/
+misc.xml
+deploymentTargetDropDown.xml
+render.experimental.xml
+
+# Keystore files
+*.jks
+*.keystore
+
+# Google Services (e.g. APIs or Firebase)
+google-services.json
+
+# Android Profiling
+*.hprof
+Footer
+© 2022 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
