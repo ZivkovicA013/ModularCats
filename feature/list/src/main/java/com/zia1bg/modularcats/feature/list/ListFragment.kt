@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.zia1bg.modularcats.feature.list.databinding.FragmentListBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,6 +20,9 @@ class ListFragment : Fragment() {
     // binding is only valid between onCreateView and onDestroyView
     // prevents memory leak when view is destroyed
 
+    lateinit var breedListAdapter: BreedListAdapter
+
+    private val viewmodel: ListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,6 +30,35 @@ class ListFragment : Fragment() {
     ): View? {
         _binding = FragmentListBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setUpRV()
+        setUpObservers()
+
+    }
+
+    private fun setUpObservers() {
+        viewmodel.breed.observe(viewLifecycleOwner) {
+            breedListAdapter.submitList(it)
+        }
+
+        viewmodel.loading.observe(viewLifecycleOwner) {
+            binding.progressBar.visibility.apply {
+                if (it)
+                    binding.progressBar.visibility = View.VISIBLE
+                else binding.progressBar.visibility = View.GONE
+            }
+
+        }
+    }
+
+    private fun setUpRV() = binding.rvBreedList.apply {
+        breedListAdapter = BreedListAdapter()
+        adapter = breedListAdapter
+        layoutManager = LinearLayoutManager(this@ListFragment.requireContext())
+        setHasFixedSize(false)
     }
 
     override fun onDestroyView() {
