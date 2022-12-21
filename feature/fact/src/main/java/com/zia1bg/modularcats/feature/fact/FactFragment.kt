@@ -6,8 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.zia1bg.modularcats.feature.fact.databinding.FragmentFactBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -30,9 +34,26 @@ class FactFragment : Fragment() {
     ): View? {
         _binding = FragmentFactBinding.inflate(inflater, container, false)
 
-        this.viewModel.getObservableFact().observe(viewLifecycleOwner) {
-            binding.tvCatFact.text = it
+        viewLifecycleOwner.lifecycleScope.launch {
+
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+
+                viewModel.catFactState.collect { catFactState ->
+
+                    binding.progressBar.visibility.apply {
+                        if (catFactState.isLoading)
+                            binding.progressBar.visibility = View.VISIBLE
+                        else
+                            binding.progressBar.visibility = View.GONE
+                    }
+
+                    binding.tvCatFact.text = catFactState.fact?.text ?: ""
+                }
+
+            }
+
         }
+
         return binding.root
     }
 

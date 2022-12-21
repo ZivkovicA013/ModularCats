@@ -1,11 +1,12 @@
 package com.zia1bg.modularcats.feature.fact
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zia1bg.modularcats.core.data.model.Fact
 import com.zia1bg.modularcats.core.data.repository.CatRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -14,24 +15,25 @@ class FactViewModel @Inject constructor(
     private val repository: CatRepository
 ) : ViewModel() {
 
-    private val _fact: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
-    }
 
-    fun getObservableFact() = _fact
+    // Backing property to avoid state updates from other classes
+    private val _catFactState = MutableStateFlow(CatFactState(false))
+
+    // The UI collects from this StateFlow to get its state updates
+    val catFactState: StateFlow<CatFactState> = _catFactState
+
 
     fun getCatFact() {
         viewModelScope.launch {
+            _catFactState.value = CatFactState(isLoading = true)
             val fact = repository.getFact()
-            _fact.postValue(fact.text)
+            _catFactState.value = CatFactState(isLoading = false, fact = fact)
         }
     }
 
-
 }
 
-sealed class CatFactState
-object Loading : CatFactState()
-object Error : CatFactState()
-
-data class Success(val fact : String) : CatFactState()
+data class CatFactState(
+    val isLoading: Boolean = false,
+    val fact: Fact? = null,
+)
