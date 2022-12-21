@@ -17,23 +17,23 @@ class FactViewModel @Inject constructor(
 
 
     // Backing property to avoid state updates from other classes
-    private val _catFactState = MutableStateFlow(CatFactState(false))
+    private val _catFactState = MutableStateFlow(FactUiState(false))
 
     // The UI collects from this StateFlow to get its state updates
-    val catFactState: StateFlow<CatFactState> = _catFactState
+    val catFactState: StateFlow<FactUiState> = _catFactState
 
 
     fun getCatFact() {
         viewModelScope.launch {
-            _catFactState.value = CatFactState(isLoading = true)
+            _catFactState.value = FactUiState(isLoading = true)
             val fact = repository.getFact()
-            _catFactState.value = CatFactState(isLoading = false, fact = fact)
+            _catFactState.value = FactUiState(isLoading = false, fact = fact)
         }
     }
 
 }
 
-data class CatFactState(
+data class FactUiState(
     val isLoading: Boolean = false,
     val fact: Fact? = null,
 )

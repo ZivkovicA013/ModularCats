@@ -47,13 +47,13 @@ class FactFragment : Fragment() {
                             binding.progressBar.visibility = View.GONE
                     }
 
+                    //NPE if repository fail to fetch list of breeds
+                    //TODO add mechanism for error if list is null
                     binding.tvCatFact.text = catFactState.fact?.text ?: ""
+                    val int = 2
                 }
-
             }
-
         }
-
         return binding.root
     }
 
