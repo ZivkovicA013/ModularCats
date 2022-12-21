@@ -3,6 +3,7 @@ package com.zia1bg.modularcats.feature.fact
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.zia1bg.modularcats.core.data.model.Fact
 import com.zia1bg.modularcats.core.data.repository.CatRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -28,3 +29,9 @@ class FactViewModel @Inject constructor(
 
 
 }
+
+sealed class CatFactState
+object Loading : CatFactState()
+object Error : CatFactState()
+
+data class Success(val fact : String) : CatFactState()
